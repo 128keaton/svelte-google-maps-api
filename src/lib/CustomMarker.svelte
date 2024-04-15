@@ -4,53 +4,32 @@
 
 	export let position: google.maps.LatLng | google.maps.LatLngLiteral;
 	export let options: google.maps.marker.AdvancedMarkerElementOptions;
+	export let customClassName = 'custom-marker';
+	export let textContent = 'Text Content';
 
-	export let onClick: (e: google.maps.MapMouseEvent) => void = () => {
-	};
-	export let onClickableChanged: () => void = () => {
-	};
-	export let onCursorChanged: () => void = () => {
-	};
-	export let onAnimationChanged: () => void = () => {
-	};
-	export let onDblClick: (e: google.maps.MapMouseEvent) => void = () => {
-	};
-	export let onDrag: (e: google.maps.MapMouseEvent) => void = () => {
-	};
-	export let onDragEnd: (e: google.maps.MapMouseEvent) => void = () => {
-	};
-	export let onDraggableChanged: () => void = () => {
-	};
-	export let onDragStart: (e: google.maps.MapMouseEvent) => void = () => {
-	};
-	export let onFlatChanged: () => void = () => {
-	};
-	export let onIconChanged: () => void = () => {
-	};
-	export let onMouseDown: (e: google.maps.MapMouseEvent) => void = () => {
-	};
-	export let onMouseOut: (e: google.maps.MapMouseEvent) => void = () => {
-	};
-	export let onMouseOver: (e: google.maps.MapMouseEvent) => void = () => {
-	};
-	export let onMouseUp: (e: google.maps.MapMouseEvent) => void = () => {
-	};
-	export let onPositionChanged: () => void = () => {
-	};
-	export let onRightClick: (e: google.maps.MapMouseEvent) => void = () => {
-	};
-	export let onShapeChanged: () => void = () => {
-	};
-	export let onTitleChanged: () => void = () => {
-	};
-	export let onVisibleChanged: () => void = () => {
-	};
-	export let onZindexChanged: () => void = () => {
-	};
-	export let onLoad: (marker: google.maps.marker.AdvancedMarkerElement) => void = () => {
-	};
-	export let onUnmount: (marker: google.maps.marker.AdvancedMarkerElement) => void = () => {
-	};
+	export let onClick: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onClickableChanged: () => void = () => {};
+	export let onCursorChanged: () => void = () => {};
+	export let onAnimationChanged: () => void = () => {};
+	export let onDblClick: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onDrag: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onDragEnd: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onDraggableChanged: () => void = () => {};
+	export let onDragStart: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onFlatChanged: () => void = () => {};
+	export let onIconChanged: () => void = () => {};
+	export let onMouseDown: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onMouseOut: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onMouseOver: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onMouseUp: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onPositionChanged: () => void = () => {};
+	export let onRightClick: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onShapeChanged: () => void = () => {};
+	export let onTitleChanged: () => void = () => {};
+	export let onVisibleChanged: () => void = () => {};
+	export let onZindexChanged: () => void = () => {};
+	export let onLoad: (marker: google.maps.marker.AdvancedMarkerElement) => void = () => {};
+	export let onUnmount: (marker: google.maps.marker.AdvancedMarkerElement) => void = () => {};
 
 	let clickListener: google.maps.MapsEventListener | null = null;
 	let clickableChangedListener: google.maps.MapsEventListener | null = null;
@@ -74,21 +53,27 @@
 	let visibleChangedListener: google.maps.MapsEventListener | null = null;
 	let zindexChangedListener: google.maps.MapsEventListener | null = null;
 
+	let customContainer: HTMLDivElement | null = null;
 	let marker: google.maps.marker.AdvancedMarkerElement;
-	const { getMap } = getContext<{ getMap: () => google.maps.Map }>('map') ?? {};
-	let map = getMap();
+	const { getMap } = getContext<{getMap: () => google.maps.Map}>('map') ?? {};
+	let map: google.maps.Map = getMap();
 	$: if (map && position) {
+
+		customContainer = document.createElement('div');
+		customContainer.className = customClassName;
+		customContainer.textContent = textContent;
+
 		marker = new google.maps.marker.AdvancedMarkerElement({
 			position,
 			map: getMap(),
-			...options
+			...options,
+			content: customContainer,
 		});
 		onLoad?.(marker);
 	}
 
 	onDestroy(() => {
 		if (marker) {
-			marker.map = null;
 			onUnmount?.(marker);
 		}
 	});
