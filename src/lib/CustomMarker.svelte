@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getContext, onDestroy } from 'svelte';
+	import { getContext, onDestroy, onMount } from 'svelte';
 	import { BROWSER as browser } from 'esm-env';
 
 	export let position: google.maps.LatLng | google.maps.LatLngLiteral;
@@ -57,23 +57,29 @@
 	let marker: google.maps.marker.AdvancedMarkerElement;
 	const { getMap } = getContext<{getMap: () => google.maps.Map}>('map') ?? {};
 	let map: google.maps.Map = getMap();
-	$: if (map && position) {
 
-		customContainer = document.createElement('div');
-		customContainer.className = customClassName;
-		customContainer.textContent = textContent;
+	onMount(async () => {
+		const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
 
-		marker = new google.maps.marker.AdvancedMarkerElement({
-			position,
-			map: getMap(),
-			...options,
-			content: customContainer,
-		});
-		onLoad?.(marker);
-	}
+		if (map && position) {
+
+			customContainer = document.createElement('div');
+			customContainer.className = customClassName;
+			customContainer.textContent = textContent;
+
+			marker = new AdvancedMarkerElement({
+				position,
+				map: getMap(),
+				...options,
+				content: customContainer,
+			});
+			onLoad?.(marker);
+		}
+	})
 
 	onDestroy(() => {
 		if (marker) {
+			marker.map = null;
 			onUnmount?.(marker);
 		}
 	});
