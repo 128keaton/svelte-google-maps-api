@@ -3,7 +3,7 @@
 	import { BROWSER as browser } from 'esm-env';
 	import { setContext } from 'svelte';
 
-	export let id: string;
+	export let id: string = 'googleMaps'
 	export let options: google.maps.MapOptions = {};
 
 	export let onDblClick: (e: google.maps.MapMouseEvent) => void = () => {};
@@ -23,7 +23,7 @@
 	export let onUnmount: (map: google.maps.Map) => void = () => {};
 
 	export let mapContainerStyle: string = 'width:100%;height:100%';
-	export let mapContainerClassName: string;
+	export let mapContainerClassName: string = 'google-maps';
 
 	let element: HTMLElement | null = null;
 	let map: google.maps.Map | null = null;
