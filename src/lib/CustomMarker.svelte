@@ -5,7 +5,6 @@
 	export let position: google.maps.LatLng | google.maps.LatLngLiteral;
 	export let options: google.maps.marker.AdvancedMarkerElementOptions;
 	export let customClassName = 'custom-marker';
-	export let textContent = 'Text Content';
 
 	export let onClick: (e: google.maps.MapMouseEvent) => void = () => {};
 	export let onClickableChanged: () => void = () => {};
@@ -65,11 +64,11 @@
 
 			customContainer = document.createElement('div');
 			customContainer.className = customClassName;
-			customContainer.textContent = textContent;
+			customContainer.textContent = options.title || '';
 
 			marker = new AdvancedMarkerElement({
 				position,
-				map: getMap(),
+				map,
 				...options,
 				content: customContainer,
 			});
