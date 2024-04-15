@@ -6,21 +6,21 @@
 	export let id: string;
 	export let options: google.maps.MapOptions = {};
 
-	export let onDblClick: (e: google.maps.MapMouseEvent) => void;
-	export let onDragEnd: (e: google.maps.MapMouseEvent) => void;
-	export let onDragStart: (e: google.maps.MapMouseEvent) => void;
-	export let onMouseDown: (e: google.maps.MapMouseEvent) => void;
-	export let onMouseMove: (e: google.maps.MapMouseEvent) => void;
-	export let onMouseOut: (e: google.maps.MapMouseEvent) => void;
-	export let onMouseOver: (e: google.maps.MapMouseEvent) => void;
-	export let onMouseUp: (e: google.maps.MapMouseEvent) => void;
-	export let onRightClick: (e: google.maps.MapMouseEvent) => void;
-	export let onClick: (e: google.maps.MapMouseEvent) => void;
-	export let onDrag: (e: google.maps.MapMouseEvent) => void;
-	export let onCenterChanged: (e: google.maps.MapMouseEvent) => void;
+	export let onDblClick: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onDragEnd: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onDragStart: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onMouseDown: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onMouseMove: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onMouseOut: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onMouseOver: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onMouseUp: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onRightClick: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onClick: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onDrag: (e: google.maps.MapMouseEvent) => void = () => {};
+	export let onCenterChanged: (e: google.maps.MapMouseEvent) => void = () => {};
 
-	export let onLoad: (map: google.maps.Map) => void;
-	export let onUnmount: (map: google.maps.Map) => void;
+	export let onLoad: (map: google.maps.Map) => void = () => {};
+	export let onUnmount: (map: google.maps.Map) => void = () => {};
 
 	export let mapContainerStyle: string = 'width:100%;height:100%';
 	export let mapContainerClassName: string;
