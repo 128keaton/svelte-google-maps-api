@@ -62,7 +62,6 @@
 
 		if (map && position && customContainer) {
 			customContainer.className = customClassName;
-			customContainer.textContent = options.title || '';
 
 			marker = new AdvancedMarkerElement({
 				position,
