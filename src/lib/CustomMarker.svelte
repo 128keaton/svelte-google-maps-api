@@ -52,7 +52,7 @@
 	let visibleChangedListener: google.maps.MapsEventListener | null = null;
 	let zindexChangedListener: google.maps.MapsEventListener | null = null;
 
-	let customContainer: HTMLDivElement | null = null;
+	let customContainer: HTMLDivElement;
 	let marker: google.maps.marker.AdvancedMarkerElement;
 	const { getMap } = getContext<{getMap: () => google.maps.Map}>('map') ?? {};
 	let map: google.maps.Map = getMap();
@@ -60,9 +60,7 @@
 	onMount(async () => {
 		const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
 
-		if (map && position) {
-
-			customContainer = document.createElement('div');
+		if (map && position && customContainer) {
 			customContainer.className = customClassName;
 			customContainer.textContent = options.title || '';
 
@@ -259,4 +257,6 @@
 	}
 </script>
 
-<slot />
+<div bind:this={customContainer}>
+	<slot />
+</div>
