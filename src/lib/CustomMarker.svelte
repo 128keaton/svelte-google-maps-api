@@ -3,7 +3,7 @@
 	import { BROWSER as browser } from 'esm-env';
 
 	export let position: google.maps.LatLng | google.maps.LatLngLiteral;
-	export let options: google.maps.marker.AdvancedMarkerElementOptions;
+	export let options: google.maps.marker.AdvancedMarkerElementOptions = {};
 	export let customClassName = 'custom-marker';
 
 	export let onClick: (e: google.maps.MapMouseEvent) => void = () => {};
@@ -53,7 +53,7 @@
 	let zindexChangedListener: google.maps.MapsEventListener | null = null;
 
 	let customContainer: HTMLDivElement;
-	export let marker: google.maps.marker.AdvancedMarkerElement;
+	let marker: google.maps.marker.AdvancedMarkerElement;
 	const { getMap } = getContext<{getMap: () => google.maps.Map}>('map') ?? {};
 	let map: google.maps.Map = getMap();
 
