@@ -1,6 +1,6 @@
 {
 	"name": "kb-svelte-google-maps-api",
-	"version": "0.1.7",
+	"version": "0.1.9",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
@@ -33,6 +33,10 @@
 		"./CustomMarker.svelte": {
 			"types": "./dist/CustomMarker.svelte.d.ts",
 			"svelte": "./dist/CustomMarker.svelte"
+		},
+		"./InfoWindow.svelte": {
+			"types": "./dist/InfoWindow.svelte.d.ts",
+			"svelte": "./dist/InfoWindow.svelte"
 		}
 	},
 	"typesVersions": {

@@ -53,7 +53,7 @@
 	let zindexChangedListener: google.maps.MapsEventListener | null = null;
 
 	let customContainer: HTMLDivElement;
-	let marker: google.maps.marker.AdvancedMarkerElement;
+	export let marker: google.maps.marker.AdvancedMarkerElement;
 	const { getMap } = getContext<{getMap: () => google.maps.Map}>('map') ?? {};
 	let map: google.maps.Map = getMap();
 
