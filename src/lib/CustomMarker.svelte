@@ -34,15 +34,15 @@
 	};
 
 	const onDoubleClick: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
-		dispatch('doubleClick', event);
+		createEventDispatcher<{doubleClick: google.maps.MapMouseEvent}>()('doubleClick', event);
 	};
 
 	const onDrag: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
-		dispatch('drag', event);
+		createEventDispatcher<{drag: google.maps.MapMouseEvent}>()('drag', event);
 	};
 
 	const onDragEnd: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
-		dispatch('dragEnd', event);
+		createEventDispatcher<{dragEnd: google.maps.MapMouseEvent}>()('dragEnd', event);
 	};
 
 	const onDraggableChanged: () => void = () => {
@@ -51,7 +51,7 @@
 
 
 	const onDragStart: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
-		dispatch('dragStart', event);
+		createEventDispatcher<{dragStart: google.maps.MapMouseEvent}>()('dragStart', event);
 	};
 
 	const onFlatChanged: () => void = () => {
@@ -63,19 +63,19 @@
 	};
 
 	const onMouseDown: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
-		dispatch('mouseDown', event);
+		createEventDispatcher<{mouseDown: google.maps.MapMouseEvent}>()('mouseDown', event);
 	};
 
 	const onMouseOut: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
-		dispatch('mouseOut', event);
+		createEventDispatcher<{mouseOut: google.maps.MapMouseEvent}>()('mouseOut', event);
 	};
 
 	const onMouseOver: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
-		dispatch('mouseOver', event);
+		createEventDispatcher<{mouseOver: google.maps.MapMouseEvent}>()('mouseOver', event);
 	};
 
 	const onMouseUp: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
-		dispatch('mouseUp', event);
+		createEventDispatcher<{mouseUp: google.maps.MapMouseEvent}>()('mouseUp', event);
 	};
 
 	const onPositionChanged: () => void = () => {
@@ -83,7 +83,7 @@
 	};
 
 	const onRightClick: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
-		dispatch('rightClick', event);
+		createEventDispatcher<{rightClick: google.maps.MapMouseEvent}>()('rightClick', event);
 	};
 
 	const onShapeChanged: () => void = () => {
@@ -103,11 +103,11 @@
 	};
 
 	const onLoad: (marker: google.maps.marker.AdvancedMarkerElement) => void = (marker: google.maps.marker.AdvancedMarkerElement) => {
-		dispatch('load', marker);
+		createEventDispatcher<{load: google.maps.marker.AdvancedMarkerElement}>()('load', marker);
 	};
 
 	const onUnmount: (marker: google.maps.marker.AdvancedMarkerElement) => void = (marker: google.maps.marker.AdvancedMarkerElement) => {
-		dispatch('unmount', marker);
+		createEventDispatcher<{unmount: google.maps.marker.AdvancedMarkerElement}>()('unmount', marker);
 	};
 
 
