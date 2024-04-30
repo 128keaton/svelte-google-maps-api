@@ -1,34 +1,115 @@
 <script lang="ts">
-	import { getContext, onDestroy, onMount } from 'svelte';
+	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';
 	import { BROWSER as browser } from 'esm-env';
+
+	const dispatch = createEventDispatcher();
 
 	export let position: google.maps.LatLng | google.maps.LatLngLiteral;
 	export let options: google.maps.marker.AdvancedMarkerElementOptions = {};
 	export let customClassName = 'custom-marker';
+	export let infoWindowContent: string | Element | Text | null = null;
+	export let useInfoWindow = false;
 
-	export let onClick: (e: google.maps.MapMouseEvent) => void = () => {};
-	export let onClickableChanged: () => void = () => {};
-	export let onCursorChanged: () => void = () => {};
-	export let onAnimationChanged: () => void = () => {};
-	export let onDblClick: (e: google.maps.MapMouseEvent) => void = () => {};
-	export let onDrag: (e: google.maps.MapMouseEvent) => void = () => {};
-	export let onDragEnd: (e: google.maps.MapMouseEvent) => void = () => {};
-	export let onDraggableChanged: () => void = () => {};
-	export let onDragStart: (e: google.maps.MapMouseEvent) => void = () => {};
-	export let onFlatChanged: () => void = () => {};
-	export let onIconChanged: () => void = () => {};
-	export let onMouseDown: (e: google.maps.MapMouseEvent) => void = () => {};
-	export let onMouseOut: (e: google.maps.MapMouseEvent) => void = () => {};
-	export let onMouseOver: (e: google.maps.MapMouseEvent) => void = () => {};
-	export let onMouseUp: (e: google.maps.MapMouseEvent) => void = () => {};
-	export let onPositionChanged: () => void = () => {};
-	export let onRightClick: (e: google.maps.MapMouseEvent) => void = () => {};
-	export let onShapeChanged: () => void = () => {};
-	export let onTitleChanged: () => void = () => {};
-	export let onVisibleChanged: () => void = () => {};
-	export let onZindexChanged: () => void = () => {};
-	export let onLoad: (marker: google.maps.marker.AdvancedMarkerElement) => void = () => {};
-	export let onUnmount: (marker: google.maps.marker.AdvancedMarkerElement) => void = () => {};
+	const onClick: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
+		dispatch('click', event);
+
+		if (useInfoWindow && infoWindow && browser && marker && map) {
+			infoWindow.open({
+				anchor: marker,
+				map,
+			});
+		}
+	};
+
+	const onClickableChanged: () => void = () => {
+		dispatch('clickableChanged');
+	};
+
+	const onCursorChanged: () => void = () => {
+		dispatch('cursorChanged');
+	};
+
+	const onAnimationChanged: () => void = () => {
+		dispatch('animationChanged');
+	};
+
+	const onDoubleClick: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
+		dispatch('doubleClick', event);
+	};
+
+	const onDrag: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
+		dispatch('drag', event);
+	};
+
+	const onDragEnd: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
+		dispatch('dragEnd', event);
+	};
+
+	const onDraggableChanged: () => void = () => {
+		dispatch('draggableChanged');
+	};
+
+
+	const onDragStart: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
+		dispatch('dragStart', event);
+	};
+
+	const onFlatChanged: () => void = () => {
+		dispatch('flatChanged');
+	};
+
+	const onIconChanged: () => void = () => {
+		dispatch('iconChanged');
+	};
+
+	const onMouseDown: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
+		dispatch('mouseDown', event);
+	};
+
+	const onMouseOut: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
+		dispatch('mouseOut', event);
+	};
+
+	const onMouseOver: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
+		dispatch('mouseOver', event);
+	};
+
+	const onMouseUp: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
+		dispatch('mouseUp', event);
+	};
+
+	const onPositionChanged: () => void = () => {
+		dispatch('positionChanged');
+	};
+
+	const onRightClick: (event: google.maps.MapMouseEvent) => void = (event: google.maps.MapMouseEvent) => {
+		dispatch('rightClick', event);
+	};
+
+	const onShapeChanged: () => void = () => {
+		dispatch('shapeChanged');
+	};
+
+	const onTitleChanged: () => void = () => {
+		dispatch('titleChanged');
+	};
+
+	const onVisibleChanged: () => void = () => {
+		dispatch('visibleChanged');
+	};
+
+	const onZindexChanged: () => void = () => {
+		dispatch('zIndexChanged');
+	};
+
+	const onLoad: (marker: google.maps.marker.AdvancedMarkerElement) => void = (marker: google.maps.marker.AdvancedMarkerElement) => {
+		dispatch('load', marker);
+	};
+
+	const onUnmount: (marker: google.maps.marker.AdvancedMarkerElement) => void = (marker: google.maps.marker.AdvancedMarkerElement) => {
+		dispatch('unmount', marker);
+	};
+
 
 	let clickListener: google.maps.MapsEventListener | null = null;
 	let clickableChangedListener: google.maps.MapsEventListener | null = null;
@@ -46,19 +127,24 @@
 	let mouseoverListener: google.maps.MapsEventListener | null = null;
 	let mouseupListener: google.maps.MapsEventListener | null = null;
 	let positionChangedListener: google.maps.MapsEventListener | null = null;
-	let rightclickListener: google.maps.MapsEventListener | null = null;
+	let rightClickListener: google.maps.MapsEventListener | null = null;
 	let shapeChangedListener: google.maps.MapsEventListener | null = null;
 	let titleChangedListener: google.maps.MapsEventListener | null = null;
 	let visibleChangedListener: google.maps.MapsEventListener | null = null;
 	let zindexChangedListener: google.maps.MapsEventListener | null = null;
 
 	let customContainer: HTMLDivElement;
+	let infoWindow: google.maps.InfoWindow | undefined;
 	let marker: google.maps.marker.AdvancedMarkerElement;
-	const { getMap } = getContext<{getMap: () => google.maps.Map}>('map') ?? {};
+	const { getMap } = getContext<{ getMap: () => google.maps.Map }>('map') ?? {};
 	let map: google.maps.Map = getMap();
 
 	onMount(async () => {
-		const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
+		const { AdvancedMarkerElement } = await google.maps.importLibrary('marker') as google.maps.MarkerLibrary;
+
+
+		if (useInfoWindow)
+			infoWindow = new google.maps.InfoWindow();
 
 		if (map && position && customContainer) {
 			customContainer.className = customClassName;
@@ -67,11 +153,11 @@
 				position,
 				map,
 				...options,
-				content: customContainer,
+				content: customContainer
 			});
 			onLoad?.(marker);
 		}
-	})
+	});
 
 	onDestroy(() => {
 		if (marker) {
@@ -120,11 +206,11 @@
 		);
 	}
 
-	$: if (marker && onDblClick && browser) {
+	$: if (marker && onDoubleClick && browser) {
 		if (dblclickListener !== null) {
 			google.maps.event.removeListener(dblclickListener);
 		}
-		dblclickListener = google.maps.event.addListener(marker, 'dblclick', onDblClick);
+		dblclickListener = google.maps.event.addListener(marker, 'dblclick', onDoubleClick);
 	}
 
 	$: if (marker && onDrag && browser) {
@@ -213,10 +299,10 @@
 	}
 
 	$: if (marker && onRightClick && browser) {
-		if (rightclickListener !== null) {
-			google.maps.event.removeListener(rightclickListener);
+		if (rightClickListener !== null) {
+			google.maps.event.removeListener(rightClickListener);
 		}
-		rightclickListener = google.maps.event.addListener(marker, 'rightclick', onRightClick);
+		rightClickListener = google.maps.event.addListener(marker, 'rightclick', onRightClick);
 	}
 
 	$: if (marker && onShapeChanged && browser) {
@@ -254,6 +340,13 @@
 			onZindexChanged
 		);
 	}
+
+	$: if (useInfoWindow && !infoWindow && browser) {
+		infoWindow = new google.maps.InfoWindow();
+	}
+
+	$: if (useInfoWindow && infoWindow && infoWindowContent !== infoWindow.getContent() && browser)
+		infoWindow.setContent(infoWindowContent);
 </script>
 
 <div bind:this={customContainer}>
